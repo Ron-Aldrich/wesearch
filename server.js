@@ -1,4 +1,3 @@
-// server.js - Main Backend Server for WeSearch
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -6,21 +5,20 @@ const https = require('https');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Serve your HTML/CSS/JS files from 'public' folder
+app.use(express.static('public')); 
 
-// Your AI API configuration
 const API_KEY = "897b24be38192e26a2203a67aa80792e478fa3b80bc41c3063bb6045d22121a1";
-const API_BASE_URL = "https://haji-mix-api.gleeze.com/api/gpt4o";
+const API_BASE_URL = "https://haji-mix-api.gleeze.com/api/gemini";
 
-// Function to call the AI API
+// AI call function using Gemini model
 async function callAI(question) {
     return new Promise((resolve, reject) => {
         const params = new URLSearchParams({
             ask: question,
             uid: "",
+            model: "gemini-1.5-flash",
             roleplay: "You are WeBot, a helpful assistant for WeSearch - a platform that helps students learn Practical Research. Be friendly, educational, and focus on research-related topics when possible.",
             api_key: API_KEY
         });
@@ -97,7 +95,7 @@ app.get('/health', (req, res) => {
     res.json({ 
         status: 'OK', 
         message: 'WeSearch Backend with AI is running!',
-        aiApiStatus: 'Connected to Haji Mix API'
+        aiApiStatus: 'Connected to Gemini API'
     });
 });
 
