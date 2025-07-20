@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public')); 
 
-const API_KEY = "897b24be38192e26a2203a67aa80792e478fa3b80bc41c3063bb6045d22121a1";
+const API_KEY = "8672951c715e5945e70b9da2663e3bbc2a3e7c678738a094057e3117c3a699ea";
 const API_BASE_URL = "https://haji-mix-api.gleeze.com/api/gemini";
 
 // AI call function using Gemini model
