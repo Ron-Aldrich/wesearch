@@ -7,81 +7,77 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
-const API_KEY = "8672951c715e5945e70b9da2663e3bbc2a3e7c678738a094057e3117c3a699ea";
-const API_BASE_URL = "https://haji-mix-api.gleeze.com/api/gemini";
+const API_KEY = "897b24be38192e26a2203a67aa80792e478fa3b80bc41c3063bb6045d22121a1";
+const API_BASE_URL = "https://haji-mix-api.gleeze.com/api/xdash";
 
-// AI call function using Gemini model
+// AI call function using XDash model
 async function callAI(question) {
     return new Promise((resolve, reject) => {
         const params = new URLSearchParams({
             ask: question,
-            uid: "",
-            model: "gemini-1.5-flash",
-            roleplay: "You are WeBot, a helpful assistant for WeSearch - a platform that helps students learn Practical Research. Be friendly, educational, and focus on research-related topics when possible.",
+            stream: "false",
             api_key: API_KEY
         });
 
         const url = `${API_BASE_URL}?${params.toString()}`;
-        
+
         https.get(url, (response) => {
             let data = '';
-            
+
             response.on('data', (chunk) => {
                 data += chunk;
             });
-            
+
             response.on('end', () => {
                 try {
                     const result = JSON.parse(data);
-                    if (result.answer) {
-                        resolve(result.answer);
+                    if (result.answer && result.answer.llm_response) {
+                        resolve(result.answer.llm_response);
                     } else {
-                        reject(new Error('No answer received from AI'));
+                        reject(new Error('No valid response from XDash AI'));
                     }
                 } catch (error) {
-                    reject(new Error('Failed to parse AI response'));
+                    reject(new Error('Failed to parse XDash AI response'));
                 }
             });
-            
+
         }).on('error', (error) => {
             reject(error);
         });
     });
 }
 
-// Chat endpoint - This is what your frontend calls
+// Chat endpoint
 app.post('/api/chat', async (req, res) => {
     try {
         const { message } = req.body;
-        
+
         if (!message || message.trim() === '') {
             return res.json({
                 success: false,
                 error: 'Message is required'
             });
         }
-        
+
         console.log('User question:', message);
-        
-        // Call the AI API
+
         const aiResponse = await callAI(message);
-        
+
         console.log('AI response:', aiResponse);
-        
+
         res.json({
             success: true,
             answer: aiResponse,
             timestamp: new Date().toISOString()
         });
-        
+
     } catch (error) {
         console.error('Chat error:', error);
-        
-        // Fallback response if AI fails
+
         const fallbackResponse = "I'm sorry, I'm having trouble connecting right now. Please try again in a moment, or ask me about Practical Research topics!";
-        
+
         res.json({
             success: true,
             answer: fallbackResponse,
@@ -92,14 +88,14 @@ app.post('/api/chat', async (req, res) => {
 
 // Health check
 app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
+    res.json({
+        status: 'OK',
         message: 'WeSearch Backend with AI is running!',
-        aiApiStatus: 'Connected to Gemini API'
+        aiApiStatus: 'Connected to XDash API'
     });
 });
 
-// Test AI endpoint (optional - for testing)
+// Test AI endpoint (optional)
 app.get('/test-ai', async (req, res) => {
     try {
         const testQuestion = req.query.q || "Hello, can you help me with research?";
@@ -115,12 +111,12 @@ app.get('/test-ai', async (req, res) => {
     }
 });
 
-// Serve your HTML files
+// Serve HTML
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Handle 404 errors
+// 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({
         success: false,
@@ -128,7 +124,7 @@ app.use('*', (req, res) => {
     });
 });
 
-// Error handling middleware
+// Error handler
 app.use((error, req, res, next) => {
     console.error('Server error:', error);
     res.status(500).json({
