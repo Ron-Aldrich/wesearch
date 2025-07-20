@@ -669,3 +669,29 @@ body {
         padding: 20px;
     }
 }
+
+/* Bot message formatting fix */
+.message.bot .message-content {
+    white-space: normal;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* Optional: improve spacing and bullet formatting */
+.message-content p {
+    margin-bottom: 10px;
+}
+
+.message-content ul {
+    margin: 0 0 10px 20px;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.message-content strong {
+    font-weight: bold;
+}
+
+.message-content em {
+    font-style: italic;
+}
