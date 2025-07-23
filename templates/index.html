@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='assets/weicon.png') }}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WeSearch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+    <div class="hamburger-menu" onclick="toggleContactPanel()">
+        <div class="hamburger-lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+
+    <div class="contact-panel" id="contactPanel">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <div class="contact-item"><h3>📧 Email</h3><p>ronaldrichd@gmail.com</p></div>
+            <div class="contact-item"><h3>📞 Phone</h3><p>+63 961 034 991</p></div>
+            <div class="contact-item"><h3>📍 Address</h3><p>CNHS - SHS</p></div>
+            <div class="contact-item">
+                <h3>🌐 Social Media</h3>
+                <p><a href="https://www.facebook.com/profile.php?id=61576735221802" target="_blank">Ronaldrich Duterte</a></p>
+            </div>
+            <div class="contact-item"><h3>Developer</h3><p>ronaldrichd@gmail.com</p></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleContactPanel()"></div>
+
+    <div class="floating-elements">
+        <div class="floating-circle circle-1"></div>
+        <div class="floating-circle circle-2"></div>
+        <div class="floating-circle circle-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="brand-name">WESEARCH</div>
+        <div class="logo" onclick="logoClick()">
+            <img src="{{ url_for('static', filename='assets/we.png') }}" alt="Logo">
+        </div>
+        <p class="purpose-text">
+            WeSearch is a web-based platform that helps students learn Practical Research more easily,
+            unlike modules that are often long and hard to understand. In WeSearch, the lessons are already
+            summarized, making them faster and easier to understand.
+        </p>
+        <a href="#" class="enter-button">Enter Site</a>
+    </div>
+
+    <div class="chat-bot-button" onclick="toggleChatInterface()">
+        <div class="robot-icon">
+            <div class="robot-head">
+                <div class="robot-eye left"></div>
+                <div class="robot-eye right"></div>
+                <div class="robot-mouth"></div>
+            </div>
+            <div class="robot-body"></div>
+        </div>
+        <span class="bot-text">WeBot</span>
+    </div>
+
+    <div class="chat-interface" id="chatInterface">
+        <div class="chat-header">
+            <div class="header-robot">
+                <div class="robot-head small">
+                    <div class="robot-eye left"></div>
+                    <div class="robot-eye right"></div>
+                    <div class="robot-mouth"></div>
+                </div>
+            </div>
+            <h3>WeBot Assistant</h3>
+            <button class="chat-close" onclick="toggleChatInterface()">×</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    Hi! I'm WeBot, your WeSearch assistant. Ask me anything about research!
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            WeBot is typing
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+            <button class="chat-send-button" id="sendButton" onclick="sendMessage()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
