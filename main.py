@@ -33,7 +33,7 @@ def call_ai_with_fallback(question):
     except Exception as e:
         print("[Gemini ERROR]", e)
 
-    # Fallback 
+    # Fallback s
     try:
         xdash_params = {
             "ask": question,
