@@ -93,7 +93,22 @@ def interface():
 
 @app.route("/team")
 def team():
-    return render_template("team.html")
+    data = request.get_json()
+    message = data.get("message", "").strip()
+
+    if not message:
+        return jsonify(success=False, error="Message is required")
+
+    print("User question:", message)
+
+    ai_response = call_ai_with_fallback(message)
+
+    if ai_response:
+        print("AI response:", ai_response)
+        return jsonify(success=True, answer=ai_response, timestamp=datetime.utcnow().isoformat())
+
+    fallback_response = "I'm sorry, both AI models are currently unavailable. Please try again later."
+    return jsonify(success=True, answer=fallback_response, timestamp=datetime.utcnow().isoformat())
 
 if __name__ == "__main__":
     import os
